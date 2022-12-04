@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -20,15 +21,45 @@ namespace Suciu_Denisa_Lab2.Pages.Books
         }
 
         public IList<Book> Book { get;set; } = default!;
+        public BookData BookD { get; set; }
+        public int BookID { get; set; }
+        public int CategoryID { get; set; }
+        public string TitleSort { get; set; }
+        public string AuthorSort { get; set; }
+        public string CurrentFilter { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? id, int? categoryID,string sortOrder, string searchString)
         {
+            
+            TitleSort = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            AuthorSort = String.IsNullOrEmpty(sortOrder) ? "author_desc" : "";
+
+            CurrentFilter = searchString;
+
             if (_context.Book != null)
             {
                 Book = await _context.Book
                  .Include(b => b.Publisher)
+                 .Include(b=>b.Author)
                  .ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+             BookD.Books = BookD.Books.Where(s => s.Author.FirstName.Contains(searchString)
+                               || s.Author.LastName.Contains(searchString) 
+                               || s.Title.Contains(searchString));
+            }
+            if (id != null)
+
+            switch (sortOrder)
+            {
+                case "title_desc": BookD.Books = BookD.Books.OrderByDescending(s => s.Title); break;
+                case "author_desc": BookD.Books = BookD.Books.OrderByDescending(s => s.Author.FullName); break;
             }
         }
+
+        }
+    
     }
 }
+

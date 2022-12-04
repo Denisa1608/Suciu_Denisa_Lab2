@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Suciu_Denisa_Lab2.Data;
 
@@ -11,9 +12,10 @@ using Suciu_Denisa_Lab2.Data;
 namespace Suciu_Denisa_Lab2.Migrations
 {
     [DbContext(typeof(Suciu_Denisa_Lab2Context))]
-    partial class Suciu_Denisa_Lab2ContextModelSnapshot : ModelSnapshot
+    [Migration("20221118121652_Authors")]
+    partial class Authors
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

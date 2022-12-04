@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Suciu_Denisa_Lab2.Data;
 using Suciu_Denisa_Lab2.Models;
 
-namespace Suciu_Denisa_Lab2.Pages.Books
+namespace Suciu_Denisa_Lab2.Pages.Authors
 {
     public class DetailsModel : PageModel
     {
@@ -19,23 +19,23 @@ namespace Suciu_Denisa_Lab2.Pages.Books
             _context = context;
         }
 
-      public Book Book { get; set; }
+      public Author Author { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Book == null)
+            if (id == null || _context.Author == null)
             {
                 return NotFound();
             }
 
-            var book = await _context.Book.Include(a=>a.Author).Include(a=>a.Publisher).FirstOrDefaultAsync(m => m.ID == id);
-            if (book == null)
+            var author = await _context.Author.FirstOrDefaultAsync(m => m.ID == id);
+            if (author == null)
             {
                 return NotFound();
             }
             else 
             {
-                Book = book;
+                Author = author;
             }
             return Page();
         }
